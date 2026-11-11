@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>라운지 운영 미니 대시보드</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#172033;background:#f5f7fb}
+    *{box-sizing:border-box}body{margin:0;padding:40px 20px}.wrap{max-width:840px;margin:auto}
+    header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+    h1{font-size:26px;margin:0}p{color:#617085}button{background:#1b4fd7;color:white;border:0;padding:12px 18px;border-radius:12px;cursor:pointer;font-weight:700}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:white;padding:22px;border-radius:18px;box-shadow:0 4px 20px #1b2b4b0a}.num{font-size:32px;font-weight:800;margin-top:10px}.label{font-size:14px;color:#65738b}
+    .panel{margin-top:16px}.panel h2{font-size:18px;margin:0 0 16px}input{padding:12px;border:1px solid #d9e1ee;border-radius:10px;font:inherit;width:100%}
+    .entry{display:flex;gap:10px}.entry button{white-space:nowrap}ul{padding:0;margin:12px 0 0;list-style:none}li{padding:13px 4px;border-bottom:1px solid #edf0f6;display:flex;justify-content:space-between;gap:12px}.empty{color:#8290a1}
+    @media(max-width:650px){.grid{grid-template-columns:1fr}body{padding:22px 14px}.num{font-size:28px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header><div><h1>라운지 운영 미니 대시보드</h1><p>간단한 HTML 예시 · 숫자는 샘플 데이터입니다.</p></div><button id="refresh">샘플 실적 변경</button></header>
+  <div class="grid">
+    <div class="card"><div class="label">승인 매출</div><div class="num" id="sales">₩52,800,000</div></div>
+    <div class="card"><div class="label">계약 건수</div><div class="num" id="contracts">14건</div></div>
+    <div class="card"><div class="label">목표 달성률</div><div class="num" id="rate">66%</div></div>
+  </div>
+  <section class="card panel"><h2>오늘의 확인 사항</h2><div class="entry"><input id="task" placeholder="확인할 사항을 입력하세요" aria-label="확인 사항"><button id="add">추가</button></div><ul id="tasks"><li>기존 가망고객 계약 진행 확인 <button class="delete" aria-label="삭제">삭제</button></li><li>지점별 실적 공유 <button class="delete" aria-label="삭제">삭제</button></li></ul></section>
+</div>
+<script>
+  const $=id=>document.getElementById(id);
+  $('refresh').onclick=()=>{const count=Math.floor(Math.random()*11)+10; const sales=count*3600000; $('sales').textContent=sales.toLocaleString('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0});$('contracts').textContent=count+'건';$('rate').textContent=Math.round(sales/80000000*100)+'%';};
+  function addTask(){let text=$('task').value.trim();if(!text)return;let li=document.createElement('li'),span=document.createElement('span'),btn=document.createElement('button');span.textContent=text;btn.textContent='삭제';btn.className='delete';li.append(span,btn);$('tasks').append(li);$('task').value='';}
+  $('add').onclick=addTask;$('task').onkeydown=e=>{if(e.key==='Enter')addTask()};$('tasks').onclick=e=>{if(e.target.classList.contains('delete'))e.target.closest('li').remove()};
+</script>
+</body>
+</html>
